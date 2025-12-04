@@ -1,0 +1,9 @@
+services:
+  bocrate:
+    build: .
+    container_name: bocrate
+    restart: unless-stopped
+    ports:
+      - "1145:8080"
+    volumes:
+      - ./data:/data
