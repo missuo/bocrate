@@ -11,7 +11,7 @@ COPY bocrate-web/ .
 RUN pnpm build
 
 # Stage 2: Build Backend
-FROM golang:1.23-alpine AS go-builder
+FROM golang:1.24-alpine AS go-builder
 WORKDIR /app/server
 RUN apk add --no-cache gcc musl-dev
 
