@@ -14,6 +14,7 @@ import {
 import { getDailyRates } from '@/lib/api';
 import type { ExchangeRate } from '@/lib/types';
 import { CURRENCY_NAMES } from '@/lib/types';
+import { parseBOCTime } from '@/lib/utils';
 
 export function HistoryView({ currency }: { currency: string }) {
   const [rates, setRates] = useState<ExchangeRate[]>([]);
@@ -37,7 +38,7 @@ export function HistoryView({ currency }: { currency: string }) {
   // Format data for chart
   // We need to reverse the rates for the chart so time goes left to right
   const chartData = [...rates].reverse().map((rate) => ({
-    date: rate.release_time.replace('T', ' ').replace('Z', ''),
+    date: parseBOCTime(rate.release_time).toISOString(),
     rate: parseFloat(rate.foreign_exchange_buying_rate) || parseFloat(rate.cash_buying_rate),
   }));
 
@@ -159,7 +160,7 @@ export function HistoryView({ currency }: { currency: string }) {
                 {rates.map((rate, i) => (
                   <tr key={i} className="hover:bg-blue-50/50 transition-colors">
                     <td className="px-6 py-3 text-gray-900">
-                      {new Date(rate.release_time).toLocaleString('en-US', {
+                      {parseBOCTime(rate.release_time).toLocaleString('en-US', {
                         month: 'short',
                         day: 'numeric',
                         hour: '2-digit',
@@ -198,7 +199,7 @@ export function HistoryView({ currency }: { currency: string }) {
             <div key={i} className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
               <div className="flex items-start justify-between mb-3">
                 <div className="text-xs text-gray-500">
-                  {new Date(rate.release_time).toLocaleString('en-US', {
+                  {parseBOCTime(rate.release_time).toLocaleString('en-US', {
                     month: 'short',
                     day: 'numeric',
                     hour: '2-digit',

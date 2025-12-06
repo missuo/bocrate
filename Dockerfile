@@ -28,6 +28,10 @@ WORKDIR /app
 # Install runtime dependencies
 RUN apk add --no-cache ca-certificates tzdata sqlite
 
+# Set timezone to Asia/Shanghai (UTC+8)
+ENV TZ=Asia/Shanghai
+RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
 # Copy binary
 COPY --from=go-builder /app/server/bocrate-server .
 

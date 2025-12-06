@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { getLatestRates } from '@/lib/api';
 import type { ExchangeRate } from '@/lib/types';
 import { CURRENCY_NAMES } from '@/lib/types';
+import { parseBOCTime } from '@/lib/utils';
 
 export function ExchangeRatesTable() {
   const [rates, setRates] = useState<Record<string, ExchangeRate> | null>(null);
@@ -106,7 +107,7 @@ export function ExchangeRatesTable() {
                   {rate.boc_conversion_rate || '-'}
                 </td>
                 <td className="px-4 py-3 text-right text-xs text-gray-500">
-                  {new Date(rate.release_time).toLocaleString('en-US', {
+                  {parseBOCTime(rate.release_time).toLocaleString('en-US', {
                     month: 'short',
                     day: 'numeric',
                     hour: '2-digit',
@@ -153,7 +154,7 @@ export function ExchangeRatesTable() {
 
             <div className="mt-3 pt-3 border-t border-gray-100">
               <div className="text-xs text-gray-400">
-                Updated: {new Date(rate.release_time).toLocaleString('en-US', {
+                Updated: {parseBOCTime(rate.release_time).toLocaleString('en-US', {
                   month: 'short',
                   day: 'numeric',
                   hour: '2-digit',
